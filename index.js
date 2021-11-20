@@ -5,7 +5,7 @@ const fs = require('fs');
 // const axios = require('axios');
 const inquirer = require('inquirer');
 // Url
-const markDown  = require('./utils/generateMarkdown');
+const markDown = require('./utils/generateMarkdown');
 // const { listenerCount } = require('events');
 
 
@@ -77,9 +77,19 @@ function init() {
     inquirer.prompt(questions)
         .then((answers) => {
             const response = markDown(answers)
+            // TODO: Create a function to write README file
+            const filename = `${answers.name.toLowerCase().split(' ').join('')}.json`;
+            fs.writeFile(filename, JSON.stringify(response, null, '\t'), (err) =>
+                err ? console.log(err) : console.log('Success!')
+            );
+
+            console.log('README has been generated');
+
+
+            // ;
             console.log("Making ReadMe");
             fs.writeFileSync("ReadMe.md", response);
-           
+
         })
         .catch((err) => {
             console.log(err);
