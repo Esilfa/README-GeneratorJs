@@ -1,7 +1,6 @@
-# 09 Node.js Homework: Professional README Generator
+## Professional README Generator
 
-## Your Task
-
+The application will be invoked by using the following command:
 
 ```bash
 node index.js

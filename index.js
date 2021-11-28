@@ -1,12 +1,12 @@
 // TODO: Include packages needed for this application
 // fs is a Node standard library package for reading and writing files
 const fs = require('fs');
-// axios gets Info
-// const axios = require('axios');
 const inquirer = require('inquirer');
 // Url
 const markDown = require('./utils/generateMarkdown');
-// const { listenerCount } = require('events');
+// const {listenerCount } = require('events');
+// const licenseInfo = require("./utils/license");
+const getBadge = require("./utils/licenseBadge");
 
 
 // TODO: Create an array of questions for user input
@@ -34,10 +34,16 @@ const questions = [
     },
     {
         // list
-        type: "input",
-        message: "What licenses did you used?",
-        name: "licenses",
+        type: "list",
+        name: "license",
+        name: "What licenses did you used?",
+        choices: [
+            "mit",
+            "lgpl-3.0",
+            "mpl-2.0",
+        ]
     },
+
     {
         type: "input",
         message: "Who were the contributors to this project?",
@@ -58,37 +64,29 @@ const questions = [
         message: "E-mail:",
         name: "email"
 
-    }
+    },
 
-];
+]
 
 // TODO: Create a function to write README file
-//     const filename = `${data.name.toLowerCase().split(' ').join('')}.json`;
-//     fs.writeFile(filename, JSON.stringify(data, null, '\t'), (err) =>
-//         err ? console.log(err) : console.log('Success!')
-//     );
-
-//     console.log('README has been generated');
 
 
-// ;
+
 // TODO: Create a function to initialize app
 function init() {
     inquirer.prompt(questions)
+    // licenseInfo(data.license)
         .then((answers) => {
             const response = markDown(answers)
-            // TODO: Create a function to write README file
-            const filename = `${answers.name.toLowerCase().split(' ').join('')}.json`;
-            fs.writeFile(filename, JSON.stringify(response, null, '\t'), (err) =>
-                err ? console.log(err) : console.log('Success!')
-            );
-
-            console.log('README has been generated');
-
-
-            // ;
+            const licenseBadge = getBadge(data);
+            // let ReadMe = creatREADME(
+            //     data,
+            //     licenseName,
+            //     licenseDescript,
+            //     licenseBadge
+            // )
             console.log("Making ReadMe");
-            fs.writeFileSync("ReadMe.md", response);
+            fs.writeFileSync("ReadMe.md", licenseBadge, response);
 
         })
         .catch((err) => {
@@ -96,5 +94,15 @@ function init() {
         })
 }
 
+// const filename = `${data.name.toLowerCase().split(' ').join('')}.json`;
+// fs.writeFile(filename, JSON.stringify(data, null, '\t'), (err) =>
+//     err ? console.log(err) : console.log('Success!')
+// );
+
+// console.log('README has been generated');
+
 // Function call to initialize app
 init();
+
+
+
